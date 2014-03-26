@@ -1091,7 +1091,19 @@ builder.selenium2.playback.playbackFunctions = {
   
   "verifyEval": function() {
     builder.selenium2.playback.execute('executeScript', { 'script': builder.selenium2.playback.param("script"), 'args': [] }, function(result) {
-      if (result.value == builder.selenium2.playback.param("value")) {
+
+      /* jshint evil:true*/
+
+      var passed = false;
+
+      if (typeof(eval(result.value)) === 'boolean') {
+        passed = eval(result.value) === eval(builder.selenium2.playback.param("value"));
+      }
+      else {
+        passed = result.value == builder.selenium2.playback.param("value");
+      }
+
+      if (passed) {
         builder.selenium2.playback.recordResult({success: true});
       } else {
         builder.selenium2.playback.recordResult({success: false, message: _t('sel2_eval_false', result.value, builder.selenium2.playback.param("value"))});
