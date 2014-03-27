@@ -103,12 +103,12 @@ builder.selenium2.playback.runTestBetween = function(startStepID, endStepID, pos
   if (builder.selenium2.playback.hasPlaybackSession()) { return; }
   builder.selenium2.playback.pausedOnBreakpoint = false;
   builder.selenium2.playback.script = builder.getScript();
-  
+
   builder.selenium2.playback.postPlayCallback   = postPlayCallback   || function() {};
   builder.selenium2.playback.jobStartedCallback = jobStartedCallback || function() {};
   builder.selenium2.playback.stepStateCallback  = stepStateCallback  || function() {};
   builder.selenium2.playback.runPausedCallback  = runPausedCallback  || function() {};
-    
+
   builder.selenium2.playback.currentStep = builder.selenium2.playback.script.getStepWithID(startStepID);
   if (!builder.selenium2.playback.currentStep) {
     builder.selenium2.playback.currentStep = builder.selenium2.playback.script.steps[0];
@@ -131,9 +131,9 @@ builder.selenium2.playback.startSession = function(sessionStartedCallback) {
     builder.selenium2.playback.prompts_tab_modal_enabled = bridge.prefManager.getBoolPref("prompts.tab_modal.enabled");
     bridge.prefManager.setBoolPref("prompts.tab_modal.enabled", false);
   } catch (e) { /* old version? */ }
-  
+
   builder.selenium2.playback.stopRequest = false;
-  
+
   // Set up Webdriver
   var handle = Components.classes["@googlecode.com/webdriver/fxdriver;1"].createInstance(Components.interfaces.nsISupports);
   var server = handle.wrappedJSObject;
@@ -190,7 +190,7 @@ builder.selenium2.playback.startSession = function(sessionStartedCallback) {
       }
     });
   };
-  
+
   window.setTimeout(builder.selenium2.playback.sessionStartTimeout, 100);
 };
 
@@ -458,7 +458,7 @@ builder.selenium2.playback.playbackFunctions = {
   "refresh": function() {
     builder.selenium2.playback.execute('refresh', {});
   },
-  
+
   "verifyTextPresent": function() {
     builder.selenium2.playback.findElement({type: 'tag name', value: 'body'}, function(result) {
       builder.selenium2.playback.execute('getElementText', {id: result.value.ELEMENT}, function(result) {
@@ -826,7 +826,7 @@ builder.selenium2.playback.playbackFunctions = {
       });
     });
   },
-  
+
   "verifyElementStyle": function() {
     builder.selenium2.playback.findElement(builder.selenium2.playback.param("locator"), function(result) {
       builder.selenium2.playback.execute('getElementValueOfCssProperty', {id: result.value.ELEMENT, propertyName: builder.selenium2.playback.param("propertyName") }, function(result) {
@@ -997,23 +997,23 @@ builder.selenium2.playback.playbackFunctions = {
   "saveScreenshot": function() {
     builder.selenium2.playback.execute("saveScreenshot", builder.selenium2.playback.param("file"));
   },
-  
+
   "switchToFrame": function() {
     builder.selenium2.playback.execute("switchToFrame", { 'id': builder.selenium2.playback.param("identifier") });
   },
-  
+
   "switchToFrameByIndex": function() {
     builder.selenium2.playback.execute("switchToFrame", { 'id': parseInt(builder.selenium2.playback.param("index"), 10) });
   },
-  
+
   "switchToWindow": function() {
     builder.selenium2.playback.execute("switchToWindow", { 'name': builder.selenium2.playback.param("name") });
   },
-  
+
   "switchToDefaultContent": function() {
     builder.selenium2.playback.execute("switchToFrame", {});
   },
-  
+
   "verifyAlertText": function() {
     builder.selenium2.playback.execute('getAlertText', {}, function(result) {
       if (result.value == builder.selenium2.playback.param("text")) {
@@ -1045,7 +1045,7 @@ builder.selenium2.playback.playbackFunctions = {
       builder.selenium2.playback.recordResult({success: true});
     });
   },
-  
+
   "verifyAlertPresent": function() {
     builder.selenium2.playback.execute('getAlert', {}, function(result) {
       builder.selenium2.playback.recordResult({success: true});
@@ -1076,7 +1076,7 @@ builder.selenium2.playback.playbackFunctions = {
       builder.selenium2.playback.recordResult({success: true});
     });
   },
-  
+
   "answerAlert": function() {
     builder.selenium2.playback.execute('setAlertValue', { 'text': builder.selenium2.playback.param("text") }, function(result) {
       builder.selenium2.playback.execute('acceptAlert', {});
@@ -1088,7 +1088,7 @@ builder.selenium2.playback.playbackFunctions = {
   "dismissAlert": function() {
     builder.selenium2.playback.execute('dismissAlert', {});
   },
-  
+
   "verifyEval": function() {
     builder.selenium2.playback.execute('executeScript', { 'script': builder.selenium2.playback.param("script"), 'args': [] }, function(result) {
 
@@ -1221,9 +1221,9 @@ builder.selenium2.playback.setVar = function(k, v) {
 builder.selenium2.playback.shutdown = function() {
   // Set the display of prompts back to how it was.
   try { bridge.prefManager.setBoolPref("prompts.tab_modal.enabled", builder.selenium2.playback.prompts_tab_modal_enabled); } catch (e) {}
-  
+
   builder.selenium2.playback.script = null;
-  
+
   if (builder.selenium2.playback.postPlayCallback) {
     builder.selenium2.playback.postPlayCallback(builder.selenium2.playback.playResult);
   }
@@ -1236,7 +1236,7 @@ builder.selenium2.playback.recordError = function(message) {
     builder.selenium2.playback.recordResult({success: false});
     return;
   }
-  
+
   builder.selenium2.playback.doRecordError(message);
 };
 
