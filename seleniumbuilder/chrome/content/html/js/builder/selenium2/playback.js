@@ -301,7 +301,11 @@ builder.selenium2.playback.param = function(pName) {
   var hasDollar = false;
   var insideVar = false;
   var varName = "";
-  var text = builder.selenium2.playback.currentStep.type.getParamType(pName) == "locator" ? builder.selenium2.playback.currentStep[pName].getValue() : builder.selenium2.playback.currentStep[pName];
+  var isLocator = builder.selenium2.playback.currentStep.type.getParamType(pName) == "locator";
+
+  var text = isLocator ?
+             builder.selenium2.playback.currentStep[pName].getValue() :
+             builder.selenium2.playback.currentStep[pName];
   for (var i = 0; i < text.length; i++) {
     var ch = text.substring(i, i + 1);
     if (insideVar) {
@@ -326,7 +330,9 @@ builder.selenium2.playback.param = function(pName) {
     }
   }
 
-  return builder.selenium2.playback.currentStep.type.getParamType(pName) == "locator" ? {"type": builder.selenium2.playback.currentStep[pName].getName(builder.selenium2), "value": output} : output;
+  return isLocator ?
+         {"type": builder.selenium2.playback.currentStep[pName].getName(builder.selenium2), "value": output} :
+         output;
 };
 
 builder.selenium2.playback.canPlayback = function(stepType) {
