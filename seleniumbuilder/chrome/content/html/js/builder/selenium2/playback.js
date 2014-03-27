@@ -306,6 +306,19 @@ builder.selenium2.playback.param = function(pName) {
   var text = isLocator ?
              builder.selenium2.playback.currentStep[pName].getValue() :
              builder.selenium2.playback.currentStep[pName];
+
+  var is_boolean        = typeof(text) === 'boolean';
+
+  var is_numeric        = typeof(parseFloat(text)) === 'number';
+
+
+  if (is_boolean || is_numeric) {
+    output = text;
+    // skip text-based parsing below by
+    // killing for loop..
+    text = '';
+  }
+
   for (var i = 0; i < text.length; i++) {
     var ch = text.substring(i, i + 1);
     if (insideVar) {
