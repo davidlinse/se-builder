@@ -97,7 +97,7 @@ builder.selenium2.playback.continueTestBetween = function(startStepID, endStepID
   } else {
     builder.selenium2.playback.runTestBetween(startStepID, endStepID, postPlayCallback, jobStartedCallback, stepStateCallback, runPausedCallback);
   }
-}
+};
 
 builder.selenium2.playback.runTestBetween = function(startStepID, endStepID, postPlayCallback, jobStartedCallback, stepStateCallback, runPausedCallback) {
   if (builder.selenium2.playback.hasPlaybackSession()) { return; }
@@ -252,7 +252,7 @@ builder.selenium2.playback.continueFindingElement = function(locator, callback, 
         }
       }
     );
-  }, builder.selenium2.playback.implicitWaitCycle == 0 ? 1 : builder.selenium2.playback.implicitWaitTimeoutAmount);
+  }, builder.selenium2.playback.implicitWaitCycle === 0 ? 1 : builder.selenium2.playback.implicitWaitTimeoutAmount);
 };
 
 builder.selenium2.playback.execute = function(name, parameters, callback, errorCallback) {
@@ -264,7 +264,7 @@ builder.selenium2.playback.execute = function(name, parameters, callback, errorC
   };
   builder.selenium2.playback.exeCallback = function(result) {
     result = JSON.parse(result);
-    if (result.status != 0) {
+    if (result.status !== 0) {
       if (errorCallback) {
         errorCallback(result);
       } else {
@@ -306,7 +306,7 @@ builder.selenium2.playback.param = function(pName) {
     var ch = text.substring(i, i + 1);
     if (insideVar) {
       if (ch == "}") {
-        if (builder.selenium2.playback.vars[varName] == undefined) {
+        if (builder.selenium2.playback.vars[varName] === undefined) {
           throw _t('sel2_variable_not_set', varName);
         }
         output += builder.selenium2.playback.vars[varName];
@@ -861,7 +861,7 @@ builder.selenium2.playback.playbackFunctions = {
   "storeElementStyle": function() {
     builder.selenium2.playback.findElement(builder.selenium2.playback.param("locator"), function(result) {
       builder.selenium2.playback.execute('getElementValueOfCssProperty', {id: result.value.ELEMENT, propertyName: builder.selenium2.playback.param("propertyName") }, function(result) {
-		    builder.selenium2.playback.vars[builder.selenium2.playback.param("variable")] = result.value;
+        builder.selenium2.playback.vars[builder.selenium2.playback.param("variable")] = result.value;
         builder.selenium2.playback.recordResult({success: true});
       });
     });
@@ -881,7 +881,7 @@ builder.selenium2.playback.playbackFunctions = {
         params.cookie.path = kv[1];
       }
       if (kv[0] == "max_age") {
-        params.cookie.expiry = (new Date().getTime()) / 1000 + parseInt(kv[1]);
+        params.cookie.expiry = (new Date().getTime()) / 1000 + parseInt(kv[1], 10);
       }
     }
     builder.selenium2.playback.execute('addCookie', params);
@@ -1003,7 +1003,7 @@ builder.selenium2.playback.playbackFunctions = {
   },
   
   "switchToFrameByIndex": function() {
-    builder.selenium2.playback.execute("switchToFrame", { 'id': parseInt(builder.selenium2.playback.param("index")) });
+    builder.selenium2.playback.execute("switchToFrame", { 'id': parseInt(builder.selenium2.playback.param("index"), 10) });
   },
   
   "switchToWindow": function() {
@@ -1199,19 +1199,19 @@ builder.selenium2.playback.recordResult = function(result) {
 };
 
 builder.selenium2.playback.hasPlaybackSession = function() {
-  return builder.selenium2.playback.script != null;
+  return builder.selenium2.playback.script !== null;
 };
 
 builder.selenium2.playback.isRunning = function() {
   return !builder.selenium2.playback.pausedOnBreakpoint;
-}
+};
 
 builder.selenium2.playback.getVars = function() {
   return builder.selenium2.playback.vars;
 };
 
 builder.selenium2.playback.setVar = function(k, v) {
-  if (v == null) {
+  if (v === null) {
     delete builder.selenium2.playback.vars[k];
   } else {
     builder.selenium2.playback.vars[k] = v;
