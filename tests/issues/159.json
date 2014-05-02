@@ -1,0 +1,31 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "get",
+      "url": "http://zarkonnen.github.io/glowing-dangerzone/sel_repro_2.html"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "id",
+        "value": "mydiv"
+      }
+    },
+    {
+      "type": "acceptAlert"
+    },
+    {
+      "type": "verifyTextPresent",
+      "text": "Hello!"
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 60
+}
